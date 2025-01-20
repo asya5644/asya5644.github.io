@@ -163,3 +163,25 @@
   </footer>
 </body>
 </html>
+
+<div class="feature">
+  <h3>Trim Video</h3>
+  <p>Cut and trim videos to the perfect length effortlessly.</p>
+  <button id="trim-button">Trim Now</button>
+</div>
+<div class="feature">
+  <h3>Text Overlay</h3>
+  <p>Add engaging text to your videos in just a few clicks.</p>
+  <button id="overlay-button">Overlay Text</button>
+</div>
+<div class="feature">
+  <h3>Remove Background</h3>
+  <p>Erase video backgrounds seamlessly with AI precision.</p>
+  <button id="background-button">Remove Background</button>
+</div>
+<div class="feature">
+  <h3>Merge Videos</h3>
+  <p>Combine multiple clips into one cohesive masterpiece.</p>
+  <button id="merge-button">Merge Files</button>
+</div>
+
