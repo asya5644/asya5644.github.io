@@ -1,194 +1,3 @@
-# asya5644.github.io
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate AI Video Editor</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        canvas { display: block; margin: 20px auto; border: 1px solid #ccc; }
-    </style>
-</head>
-<body>
-    <h1>Ultimate AI Video Editor</h1>
-    <input type="file" id="videoUpload" accept="video/*">
-    <video id="videoPlayer" controls></video>
-    <br>
-    <label>Start Time: <input type="number" id="startTime" min="0"></label>
-    <label>End Time: <input type="number" id="endTime" min="0"></label>
-    <button onclick="trimVideo()">Trim Video</button>
-    <br>
-    <label>Text Overlay: <input type="text" id="overlayText"></label>
-    <button onclick="addTextOverlay()">Add Text</button>
-    <br>
-    <input type="file" id="mergeVideoUpload" accept="video/*">
-    <button onclick="mergeVideos()">Merge Videos</button>
-    <br>
-    <label>Filter: 
-        <select id="filterSelect" onchange="applyFilter()">
-            <option value="none">None</option>
-            <option value="grayscale">Grayscale</option>
-            <option value="sepia">Sepia</option>
-            <option value="invert">Invert</option>
-        </select>
-    </label>
-    <br>
-    <button onclick="removeBackground()">Remove Background</button>
-    <br>
-    <button onclick="addFaceTracking()">Add Face Tracking</button>
-    <br>
-    <button onclick="exportVideo()">Export Video</button>
-    <canvas id="videoCanvas"></canvas>
-    <script>
-        const { createFFmpeg, fetchFile } = FFmpeg;
-        const ffmpeg = createFFmpeg({ log: true });
-        let video = document.getElementById("videoPlayer");
-        let canvas = document.getElementById("videoCanvas");
-        let ctx = canvas.getContext("2d");
-
-        document.getElementById("videoUpload").addEventListener("change", function(event) {
-            let file = event.target.files[0];
-            if (file) {
-                let url = URL.createObjectURL(file);
-                video.src = url;
-            }
-        });
-
-        function trimVideo() {
-            let start = parseFloat(document.getElementById("startTime").value);
-            let end = parseFloat(document.getElementById("endTime").value);
-            if (!isNaN(start) && !isNaN(end) && start < end) {
-                video.currentTime = start;
-                setTimeout(() => video.pause(), (end - start) * 1000);
-            }
-        }
-
-        function addTextOverlay() {
-            let overlayText = document.getElementById("overlayText").value;
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            ctx.font = "30px Arial";
-            ctx.fillStyle = "white";
-            ctx.fillText(overlayText, 50, 50);
-        }
-
-        function mergeVideos() {
-            alert("Video merging feature with FFmpeg.js is under development.");
-        }
-
-        function applyFilter() {
-            let filter = document.getElementById("filterSelect").value;
-            video.style.filter = filter;
-        }
-
-        async function removeBackground() {
-            const net = await bodyPix.load();
-            const segmentation = await net.segmentPerson(video);
-            const mask = bodyPix.toMask(segmentation);
-            ctx.putImageData(mask, 0, 0);
-        }
-
-        function addFaceTracking() {
-            alert("Face tracking feature is under development.");
-        }
-
-        async function exportVideo() {
-            if (!ffmpeg.isLoaded()) await ffmpeg.load();
-            const inputFile = document.getElementById("videoUpload").files[0];
-            if (!inputFile) {
-                alert("Please upload a video first.");
-                return;
-            }
-            
-            ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(inputFile));
-            await ffmpeg.run('-i', 'input.mp4', 'output.mp4');
-            
-            const data = ffmpeg.FS('readFile', 'output.mp4');
-            const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'edited_video.mp4';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-    </script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome GitHub Page</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(120deg, #84fab0, #8fd3f4);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3rem;
-            color: #222;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 2rem;
-        }
-
-        .button {
-            padding: 0.8rem 2rem;
-            background-color: #ff6f61;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .button:hover {
-            background-color: #ff3d2e;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
-        }
-
-        footer {
-            margin-top: auto;
-            font-size: 0.9rem;
-            color: #777;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome to My Amazing Website!</h1>
-    <p>This is my first GitHub Page. I’m just getting started, but it’s already looking cool!</p>
-    <a href="#" class="button">Click Me!</a>
-    <footer>
-        &copy; 2025 Created by Me. All rights reserved.
-    </footer>
-</body>
-</html>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -205,14 +14,14 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden;
         }
 
         header {
@@ -221,31 +30,198 @@
             padding: 15px 20px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideInDown 1s ease-out;
         }
 
         header h1 {
-            font-size: 2rem;
-            color: #ff6f61;
+            font-size: 2.5rem;
+            color: #00c6ff;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .container {
             width: 90%;
             max-width: 1200px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
+            padding: 30px;
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             margin-top: 20px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .tool-section {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center
+            gap: 30px;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
+        .tool-card {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            animation: zoomIn 0.8s ease-in;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .tool-card h3 {
+            margin-bottom: 15px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .tool-card p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .tool-card button {
+            padding: 10px 20px;
+            background-color: #121212;
+            border: none;
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .tool-card button:hover {
+            background-color: #00c6ff;
+            transform: scale(1.1);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #ddd;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-in;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .floating-button:hover {
+            transform: rotate(360deg);
+            background: #00c6ff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ultimate AI Video Editor</h1>
+    </header>
+
+    <div class="container">
+        <h2>Powerful Tools for Video Editing</h2>
+        <div class="tool-section">
+            <div class="tool-card">
+                <h3>Trim Video</h3>
+                <p>Select a video and set start and end times to trim.</p>
+                <button>Trim Now</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>Text Overlay</h3>
+                <p>Add custom text to your video effortlessly.</p>
+                <button>Overlay Text</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>Remove Background</h3>
+                <p>Erase video backgrounds with AI precision.</p>
+                <button>Remove Background</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>Merge Videos</h3>
+                <p>Combine multiple videos into one seamless clip.</p>
+                <button>Merge Files</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>AI Face Tracking</h3>
+                <p>Automatically track and enhance faces in videos.</p>
+                <button>Track Faces</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Ultimate AI Video Editor. All rights reserved.
+    </footer>
+
+    <div class="floating-button">+</div>
+</body>
+</html>
