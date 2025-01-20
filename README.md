@@ -1,156 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate AI Video Editor</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(120deg, #00BFA6, #006C84);
-            color: white;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate AI Video Editor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      overflow-x: hidden;
+    }
 
-        header {
-            text-align: center;
-            padding: 20px 0;
-            font-size: 2.5em;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 50px;
+      background: rgba(0, 0, 0, 0.8);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: calc(100vh - 70px);
-            padding: 20px;
-        }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #66d9ef;
+    }
 
-        .editor-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 40px;
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
+    header nav a {
+      text-decoration: none;
+      color: white;
+      margin: 0 15px;
+      transition: color 0.3s ease;
+    }
 
-        .editor-section h2 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #00FFDD;
-        }
+    header nav a:hover {
+      color: #66d9ef;
+    }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(145deg, #2c5364, #203a43);
+      color: white;
+    }
 
-        .input-group label {
-            font-size: 1.2em;
-            margin-bottom: 8px;
-        }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
 
-        .input-group input, .input-group select {
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            font-size: 1em;
-        }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+    }
 
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+    .hero button {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      background: #66d9ef;
+      color: #0f2027;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
 
-        .button {
-            padding: 10px 20px;
-            font-size: 1em;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #fff;
-            background: linear-gradient(120deg, #00FFDD, #0098D9);
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
+    .hero button:hover {
+      transform: scale(1.1);
+      background: #52c4d4;
+    }
 
-        .button:hover {
-            background: linear-gradient(120deg, #0098D9, #00FFDD);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 50px;
+    }
 
-        .video-preview {
-            margin-top: 20px;
-            text-align: center;
-        }
+    .feature {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
 
-        .video-preview video {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
+    .feature:hover {
+      transform: translateY(-10px);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    }
 
-        footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 1em;
-            background: rgba(0, 0, 0, 0.3);
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            color: #00FFDD;
-        }
-    </style>
+    .feature h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #66d9ef;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <header>Ultimate AI Video Editor</header>
-    <div class="container">
-        <div class="editor-section">
-            <h2>Easy and Powerful Video Editing</h2>
-            <div class="input-group">
-                <label for="video-upload">Upload your video</label>
-                <input type="file" id="video-upload">
-            </div>
-            <div class="input-group">
-                <label for="start-time">Start Time</label>
-                <input type="text" id="start-time" placeholder="00:00:00">
-            </div>
-            <div class="input-group">
-                <label for="end-time">End Time</label>
-                <input type="text" id="end-time" placeholder="00:00:00">
-            </div>
-            <div class="buttons">
-                <button class="button" onclick="alert('Trim Video Coming Soon!')">Trim Video</button>
-                <button class="button" onclick="alert('Text Overlay Coming Soon!')">Add Text</button>
-            </div>
-            <div class="video-preview">
-                <h3>Preview</h3>
-                <video controls>
-                    <source src="" type="video/mp4">
-                    Your browser does not support HTML5 video.
-                </video>
-            </div>
-        </div>
+  <header>
+    <h1>Ultimate AI Video Editor</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Elevate Your Video Editing</h2>
+    <p>Discover powerful AI tools to trim, edit, and create stunning videos with ease. No experience required!</p>
+    <button>Get Started</button>
+  </section>
+
+  <section id="features" class="features">
+    <div class="feature">
+      <h3>Trim Video</h3>
+      <p>Cut and trim videos to the perfect length effortlessly.</p>
     </div>
-    <footer>
-        Created with 💖 by You
-    </footer>
+    <div class="feature">
+      <h3>Text Overlay</h3>
+      <p>Add engaging text to your videos in just a few clicks.</p>
+    </div>
+    <div class="feature">
+      <h3>Remove Background</h3>
+      <p>Erase video backgrounds seamlessly with AI precision.</p>
+    </div>
+    <div class="feature">
+      <h3>Merge Videos</h3>
+      <p>Combine multiple clips into one cohesive masterpiece.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Ultimate AI Video Editor | <a href="#">Privacy Policy</a></p>
+  </footer>
 </body>
 </html>
